@@ -9,9 +9,9 @@
  Пример:
    forEach([1, 2, 3], (el) => console.log(el)); // выведет каждый элемент массива
  */
-function forEach(array, fn) {
-  for(i = 0; i < length; i++) {
-    fn(array[i], i, array)
+function forEach(array) {
+  for(let i = 0; i < array.length; i++) {
+    console.log(array[i])
   }
 }
 
@@ -25,10 +25,11 @@ function forEach(array, fn) {
    const newArray = map([1, 2, 3], (el) => el ** 2);
    console.log(newArray); // выведет [1, 4, 9]
  */
-function map(array, fn) {
+function map(array) {
   let newArr = []
-  for(i = 0; i < length; i++) {
-    newArr = fn(array[i], i, array)
+
+  for(i = 0; i < array.length; i++) {
+    newArr.push(array[i] ** 2)
   }
 
   return newArr
@@ -44,8 +45,14 @@ function map(array, fn) {
    const sum = reduce([1, 2, 3], (all, current) => all + current);
    console.log(sum); // выведет 6
  */
-function reduce() {
-  
+  function reduce(array) {
+  let sum = 0
+
+  for(let i = 0; i < array.length; i++) {
+      sum += array[i]
+  }
+
+  return sum
 }
 
 /*
