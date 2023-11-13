@@ -9,9 +9,9 @@
  Пример:
    forEach([1, 2, 3], (el) => console.log(el)); // выведет каждый элемент массива
  */
-function forEach(array) {
-  for(let i = 0; i < array.length; i++) {
-    console.log(array[i])
+function forEach(array, fn) {
+  for (let i = 0; i < array.length; i++) {
+    fn(array[i], i, array);
   }
 }
 
@@ -25,14 +25,14 @@ function forEach(array) {
    const newArray = map([1, 2, 3], (el) => el ** 2);
    console.log(newArray); // выведет [1, 4, 9]
  */
-function map(array) {
-  let newArr = []
+function map(array, fn) {
+  const newArr = [];
 
-  for(i = 0; i < array.length; i++) {
-    newArr.push(array[i] ** 2)
+  for (let i = 0; i < array.length; i++) {
+    newArr[i] = fn(array[i], i, array);
   }
 
-  return newArr
+  return newArr;
 }
 
 /*
@@ -45,14 +45,16 @@ function map(array) {
    const sum = reduce([1, 2, 3], (all, current) => all + current);
    console.log(sum); // выведет 6
  */
-  function reduce(array) {
-  let sum = 0
+function reduce(array, fn, initial) {
+  let sum = initial || array[0],
+    i = initial ? 0 : 1;
 
-  for(let i = 0; i < array.length; i++) {
-      sum += array[i]
+  for (; i < array.length; i++) {
+    fn(sum, array[i], i, array);
+    sum += array[i];
   }
 
-  return sum
+  return sum;
 }
 
 /*
@@ -64,14 +66,14 @@ function map(array) {
    const keys = upperProps({ name: 'Сергей', lastName: 'Петров' });
    console.log(keys) // выведет ['NAME', 'LASTNAME']
  */
-   function upperProps(obj) {
-    let newArr = []
-  
-    for(let i in obj) {
-      newArr.push(obj[i].toUpperCase())
-    }
-  
-    return newArr
+function upperProps(obj) {
+  const newArr = [];
+
+  for (const i in obj) {
+    newArr.push(i.toUpperCase());
   }
+
+  return newArr;
+}
 
 export { forEach, map, reduce, upperProps };
