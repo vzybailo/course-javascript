@@ -46,15 +46,14 @@ function map(array, fn) {
    console.log(sum); // выведет 6
  */
 function reduce(array, fn, initial) {
-  let sum = initial || array[0],
-    i = initial ? 0 : 1;
+  let res = initial || array[0]
 
-  for (; i < array.length; i++) {
-    fn(sum, array[i], i, array);
-    sum += array[i];
+  for (let i = initial ? 0 : 1; i < array.length; i++) {
+    fn(res, array[i], i, array);
+    res += array[i];
   }
 
-  return sum;
+  return res;
 }
 
 /*
