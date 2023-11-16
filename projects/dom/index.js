@@ -28,6 +28,8 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+  where.prepend(what)
+  return where
 }
 
 /*
@@ -50,6 +52,16 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+  let children = where.children
+  const array = []
+
+  for(let i = 0; i < where.children.length - 1; i++) {
+    if(children[i].nextElementSibling.nodeName === 'P') {
+      array.push(children[i])
+    }
+  }
+
+  return array
 }
 
 /*
@@ -72,7 +84,7 @@ function findAllPSiblings(where) {
 function findError(where) {
   const result = [];
 
-  for (const child of where.childNodes) {
+  for (const child of where.children) {
     result.push(child.textContent);
   }
 
@@ -92,6 +104,13 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+  const children = where.childNodes
+
+  for(let i = 0; i < children.length; i++) {
+    children[i].textContent = ''
+  }
+
+  return children
 }
 
 /*
@@ -115,6 +134,37 @@ function deleteTextNodes(where) {
    }
  */
 function collectDOMStat(root) {
+  const children = root.childNodes
+  let statObj = {
+    tags: {},
+    classes: {},
+    texts: 0
+  }
+
+  function stat(root) {
+    for(let child of children) {
+      if(child.nodeType === Node.TEXT_NODE ) {
+        statObj.texts++
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        if(child.tagName in statObj.tags) {
+          statObj.tags[child.tagName]++
+        } else {
+          statObj.tags[child.tagName] = 1
+        }
+        for (const className of child.classList) {
+          if (className in statObj.classes) {
+            statObj.classes[className]++;
+          } else {
+            statObj.classes[className] = 1;
+          }
+        }
+      }
+    }
+  }
+
+  stat(root)
+  return statObj
+
 }
 
 export {
