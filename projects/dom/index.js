@@ -133,38 +133,35 @@ function deleteTextNodes(where) {
      texts: 3
    }
  */
-function collectDOMStat(root) {
-  const children = root.childNodes
-  let statObj = {
-    tags: {},
-    classes: {},
-    texts: 0
-  }
-
-  function stat(root) {
-    for(let child of children) {
-      if(child.nodeType === Node.TEXT_NODE ) {
-        statObj.texts++
-      } else if (child.nodeType === Node.ELEMENT_NODE) {
-        if(child.tagName in statObj.tags) {
-          statObj.tags[child.tagName]++
-        } else {
-          statObj.tags[child.tagName] = 1
-        }
-        for (const className of child.classList) {
-          if (className in statObj.classes) {
-            statObj.classes[className]++;
+  function collectDOMStat(root) {
+    const statObj = {
+      tags: {},
+      classes: {},
+      texts: 0
+    };
+    function count(root) {
+      for (const child of root.childNodes) {
+        if (child.nodeType == Node.TEXT_NODE) {
+          statObj.texts++;
+        } else if (child.nodeType == Node.ELEMENT_NODE) {
+          if (child.tagName in statObj.tags) {
+            statObj.tags[child.tagName]++;
           } else {
-            statObj.classes[className] = 1;
+            statObj.tags[child.tagName] = 1;
           }
+          for (const className of child.classList) {
+            if (className in statObj.classes) {
+              statObj.classes[className]++;
+            } else {
+              statObj.classes[className] = 1;
+            }
+          }
+          count(child);
         }
       }
     }
-  }
-
-  stat(root)
-  return statObj
-
+    count(root);
+    return statObj;
 }
 
 export {
