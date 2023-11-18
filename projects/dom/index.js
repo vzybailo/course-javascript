@@ -141,9 +141,9 @@ function deleteTextNodes(where) {
     };
     function count(root) {
       for (const child of root.childNodes) {
-        if (child.nodeType == Node.TEXT_NODE) {
+        if (child.nodeType === Node.TEXT_NODE) {
           statObj.texts++;
-        } else if (child.nodeType == Node.ELEMENT_NODE) {
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
           if (child.tagName in statObj.tags) {
             statObj.tags[child.tagName]++;
           } else {
